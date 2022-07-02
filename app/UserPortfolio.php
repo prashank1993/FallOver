@@ -11,9 +11,12 @@ class UserPortfolio extends Model
     public $table = 'user_portfolio';
 
     protected $fillable = [
-        'key',
-        'value',
         'user_id',
+        'type',
+        'video_type',
+        'url',
+        'status',
+        'menu_order',
     ];
 
     /**
@@ -23,6 +26,6 @@ class UserPortfolio extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id', 'user_id');
     }
 }

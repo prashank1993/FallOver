@@ -170,23 +170,31 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <td>
-                                      <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                        <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="" data-bs-original-title="Lilian Fuller">
-                                            <img src="{{ asset('assets/img/avatars/5.png') }}" alt="Avatar" class="">
-                                        </li>
-                                      </ul>
-                                    </td>
-                                    <td>2-Jun-2022</td>
-                                    <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                    <td>
-                                      
-                                        <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                        <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                                    </td>
-                                  </tr>
-                                  
+                                    @if(isset($user->portfolio) && count($user->portfolio) > 0)
+                                    @foreach ($user->portfolio as $portfolio)
+                                    <tr>
+                                        <td>
+                                            @if($portfolio->type == 'image')
+                                            <img src="{{ asset('assets/img/avatars/5.png') }}" height="100" alt="Avatar" class="">
+                                            @else 
+                                            <img src="{{ asset('assets/img/others/player.png') }}" height="100" alt="Avatar" class="">
+                                            @endif
+                                            
+                                        </td>
+                                        <td>{{$portfolio->created_at->format('d/M/Y')}}</td>
+                                        <td>
+                                            @if($portfolio->status)
+                                            <span class="badge bg-label-primary me-1">Active</span></td>
+                                            @else 
+                                            <span class="badge bg-label-danger me-1">In Active</span></td>
+                                            @endif
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                               </table>
                             </div>

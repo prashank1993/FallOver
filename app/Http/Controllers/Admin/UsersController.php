@@ -135,12 +135,14 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $user->load('roles');
+        $user->load('portfolio');
         $user_meta = (object)$this->getUserMeta($user->id);
         $user->meta = $user_meta;
         $data['user'] = $user;
         $data['countries'] = $this->getCountry();
         $data['states'] = $this->getState($user_meta->country);
         $data['roles'] = Role::all()->pluck('title', 'id');
+
         return view('user-profile.index', $data);
     }
 
