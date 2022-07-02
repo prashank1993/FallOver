@@ -29,9 +29,10 @@ class UsersController extends Controller
     {
         abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $roles = Role::all()->pluck('title', 'id');
-
-        return view('admin.users.create', compact('roles'));
+        $data['roles'] = Role::all()->pluck('title', 'id');
+        $data['countries'] = $this->getCountry();
+        $data['states'] = $this->getState();
+        return view('user-profile.index', $data);
     }
 
     public function store(Request $request)
@@ -49,6 +50,7 @@ class UsersController extends Controller
                 $status = $this->updateUserMeta($request->user_id, 'socialLinks', json_encode($user_meta));
             }
         }
+        // UserPortfolio
         if (isset($request->profile_details)) {
             $validated = $request->validate([
                 'firstName' => 'required|max:255',
@@ -138,7 +140,7 @@ class UsersController extends Controller
         $data['user'] = $user;
         $data['countries'] = $this->getCountry();
         $data['states'] = $this->getState($user_meta->country);
-
+        $data['roles'] = Role::all()->pluck('title', 'id');
         return view('user-profile.index', $data);
     }
 

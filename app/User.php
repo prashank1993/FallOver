@@ -73,4 +73,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    /**
+     * Get all of the portfolios for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function portfolio()
+    {
+        return $this->hasMany(UserPortfolio::class, 'user_id', 'id');
+    }
 }

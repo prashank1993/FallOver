@@ -117,7 +117,7 @@ class Controller extends BaseController
         if (empty($state_id)) {
             if (empty($country_id)) {
                 // 
-                $states = States::pluck('name', 'id')->get()->toArray();
+                $states = States::select('name', 'id')->get()->toArray();
                 return $states;
             } else {
                 //

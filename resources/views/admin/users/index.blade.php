@@ -67,11 +67,11 @@
                                     </a>
                                 @endcan
 
-                                @can('user_edit')
+                                {{-- @can('user_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.users.edit', $user->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                @endcan
+                                @endcan --}}
 
                                 @can('user_delete')
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
