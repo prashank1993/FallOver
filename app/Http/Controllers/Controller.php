@@ -137,4 +137,10 @@ class Controller extends BaseController
             return $states;
         }
     }
+
+    public static function shortString($string = '', $limit = 120)
+    {
+        $string = strip_tags($string);
+        return strlen($string) > $limit ? substr($string, 0, $limit) . " ..." : $string;
+    }
 }

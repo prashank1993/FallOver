@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+@php
+use \App\Http\Controllers\Controller;
+@endphp
+<script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
+
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">User Account /</span> Account </h4>
     <div class="row">
@@ -12,33 +17,39 @@
                         <i class="bx bx-user me-1"></i> Profile Details
                     </button>
                     </li>
+                    @php 
+                        $disabled = '';
+                        if(!isset($user)){
+                            $disabled = 'disabled';
+                        }
+                    @endphp
                     <li class="nav-item">
-                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-portfolio" aria-controls="navs-pills-top-messages" aria-selected="true">
-                        <i class='bx bx-slideshow'></i> Portfolio
-                    </button>
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-portfolio" aria-controls="navs-pills-top-messages" aria-selected="true">
+                            <i class='bx bx-slideshow'></i> Portfolio
+                        </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-social" aria-controls="navs-pills-top-messages" aria-selected="true">
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-social" aria-controls="navs-pills-top-messages" aria-selected="true">
                             <i class='bx bx-link-alt'></i> Social Links
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-packages" aria-controls="navs-pills-top-messages" aria-selected="true">
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-packages" aria-controls="navs-pills-top-messages" aria-selected="true">
                             <i class='bx bx-layer-plus' ></i> Packages
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-orders" aria-controls="navs-pills-top-messages" aria-selected="true">
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-orders" aria-controls="navs-pills-top-messages" aria-selected="true">
                             <i class='bx bx-cart-alt'></i> Orders
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-earning" aria-controls="navs-pills-top-messages" aria-selected="true">
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-earning" aria-controls="navs-pills-top-messages" aria-selected="true">
                             <i class='bx bx-dollar-circle' ></i> Earning
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages" aria-selected="true">
+                        <button type="button" class="nav-link" role="tab" {{$disabled}} data-bs-toggle="tab" data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages" aria-selected="true">
                             <i class='bx bx-chat'></i> Messages
                         </button>
                     </li>
@@ -46,10 +57,10 @@
                 <div class="tab-content card mb-4" style="padding: 0; ">
                     <div class="tab-pane fade show active" id="navs-pills-top-profile" role="tabpanel">
                         <h5 class="card-header">Profile Details</h5>
+                        <hr class="my-0">
                         <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
                             <!-- Account -->
                             @csrf
-                            
                             <input type="hidden" name="user_id" value="{{($user->id)??''}}">
                             <input type="hidden" name="profile_details" value="profile_details">
                             <div class="card-body">
@@ -78,7 +89,7 @@
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
                                         <label for="firstName" class="form-label">First Name</label>
-                                        <input class="form-control @error('firstName') is-invalid @enderror" type="text" id="firstName" placeholder="Frist Name" name="firstName" value="{{($user->first_name)??''}}" autofocus="">
+                                        <input class="form-control @error('firstName') is-invalid @enderror" type="text" id="firstName" placeholder="Frist Name" name="firstName" value="{{($user->first_name)??''}}">
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label for="lastName" class="form-label">Last Name</label>
@@ -157,13 +168,15 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-portfolio" role="tabpanel">
-                        <h5 class="card-header">Portfolio <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalCenter">Add New</button></h5>
+                        <h5 class="card-header">Portfolio <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPortfolio">Add New</button></h5>
+                        <hr class="my-0">
                         <div class="card-body">
                             <div class="table-responsive text-nowrap">
                               <table class="table table-bordered">
                                 <thead>
                                   <tr>
                                     <th>Item</th>
+                                    <th>Type</th>
                                     <th>Date</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -173,14 +186,15 @@
                                     @if(isset($user->portfolio) && count($user->portfolio) > 0)
                                     @foreach ($user->portfolio as $portfolio)
                                     <tr>
-                                        <td>
+                                        <td style="text-align: center; width: 125px;">
                                             @if($portfolio->type == 'image')
-                                            <img src="{{ asset('assets/img/avatars/5.png') }}" height="100" alt="Avatar" class="">
+                                            <img src="{{ asset($portfolio->url) }}" style="height:100px; object-fit: cover; width: 110px;" alt="Avatar" class="">
                                             @else 
-                                            <img src="{{ asset('assets/img/others/player.png') }}" height="100" alt="Avatar" class="">
+                                            <img src="{{ asset('assets/img/others/player.png') }}" style="height:100px; object-fit: cover; width: 110px;" alt="Avatar" class="">
                                             @endif
                                             
                                         </td>
+                                        <td>{{ucFirst($portfolio->type)}}</td>
                                         <td>{{$portfolio->created_at->format('d/M/Y')}}</td>
                                         <td>
                                             @if($portfolio->status)
@@ -199,66 +213,72 @@
                               </table>
                             </div>
                         </div>
-                        <div class="modal fade" id="modalCenter" tabindex="-1" style="display: none;" aria-hidden="true">
+                        <div class="modal fade" id="modalPortfolio" tabindex="-1" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="modalCenterTitle">Add Portfolio</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-content">
+                                    <form action="{{ route("admin.add-portfolio") }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="user_id" value="{{ isset($user->id)?$user->id:'' }}">
+                                        <input type="hidden" name="portfolio_id" value="">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCenterTitle">Add Portfolio</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col mb-3">
+                                                    <label for="fileType" class="form-label">Type</label>
+                                                    <select id="fileType" name="filetype" class="select2 form-select">
+                                                        <option value="image">Image</option>
+                                                        <option value="video">Video</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" id="imageType">
+                                                <div class="col mb-3">
+                                                    <label for="formFile" class="form-label">Portfolio Image</label>
+                                                    <input class="form-control" type="file" name="portfolioImage" id="formFile">
+                                                </div>
+                                            </div>
+                                            <div class="row g-2" id="videoType">
+                                                <div class="col-12 mb-3">
+                                                    <label for="video_Type" class="form-label">Video Type</label>
+                                                    <select id="video_Type" name="videotype" class="select2 form-select">
+                                                        <option value="youtube">Youtube Video</option>
+                                                        <option value="manual">Video</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 mb-3" id="videoLink">
+                                                    <label for="video_link" class="form-label">Youtube Video</label>
+                                                    <input type="text" id="video_link" name="video_link" class="form-control" value="https://www.youtube.com/watch?v=MJGzd1_mGao" placeholder="www.youtube.com/watch?v=video-url">
+                                                </div>
+                                                <div class="col-12 mb-3" id="videoFile">
+                                                    <label for="video_File" class="form-label">Video</label>
+                                                    <input class="form-control" type="file" name="video_File" id="video_File">
+                                                </div>
+                                            </div>
+                                            <div class="row imageType">
+                                                <div class="col mb-3">
+                                                    <label for="status" class="form-label">Status</label>
+                                                    <select id="status" name="status" class="select2 form-select">
+                                                        <option value="1">Active</option>
+                                                        <option value="0">In Active</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col mb-3">
-                                            <label for="fileType" class="form-label">Type</label>
-                                            <select id="fileType" name="filetype" class="select2 form-select">
-                                                <option value="image">Image</option>
-                                                <option value="video">Video</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="imageType">
-                                        <div class="col mb-3">
-                                            <label for="formFile" class="form-label">Portfolio Image</label>
-                                            <input class="form-control" type="file" id="formFile">
-                                        </div>
-                                    </div>
-                                    <div class="row g-2" id="videoType">
-                                        <div class="col-12 mb-3">
-                                            <label for="video_Type" class="form-label">Video Type</label>
-                                            <select id="video_Type" name="videotype" class="select2 form-select">
-                                                <option value="youtube">Youtube Video</option>
-                                                <option value="manual">Video</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 mb-3" id="videoLink">
-                                            <label for="video_link" class="form-label">Youtube Video</label>
-                                            <input type="text" id="video_link" class="form-control" value="https://www.youtube.com/watch?v=MJGzd1_mGao" placeholder="www.youtube.com/watch?v=video-url">
-                                        </div>
-                                        <div class="col-12 mb-3" id="videoFile">
-                                            <label for="video_File" class="form-label">Video</label>
-                                            <input class="form-control" type="file" id="video_File">
-                                        </div>
-                                    </div>
-                                    <div class="row imageType">
-                                        <div class="col mb-3">
-                                            <label for="status" class="form-label">Status</label>
-                                            <select id="status" name="status" class="select2 form-select">
-                                                <option value="1">Active</option>
-                                                <option value="0">In Active</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                              </div>
                             </div>
                           </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-social" role="tabpanel">
                         <h5 class="card-header">Social Links</h5>
+                        <hr class="my-0">
                         <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="user_id" value="{{($user->id)??''}}">
@@ -294,23 +314,187 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-packages" role="tabpanel">
-                        <h5 class="card-header">Packages</h5>
-                        <!-- Account -->
-                        <div class="card-body">
-                            
-                        </div>
+                        <h5 class="card-header">Packages <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#largeModalPackages">Add New</button></h5>
                         <hr class="my-0">
                         <div class="card-body">
-                            <form id="formAccountSettings" method="POST" onsubmit="return false">
-                            
-                            </form>
+                            <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+                            @if(isset($user->packages))
+                                @foreach($user->packages as $package)
+                                <div class="col">
+                                    <div class="card">
+                                        <img class="card-img-top" style="height: 250px; object-fit: cover;" src="{{ (isset($package->image) && $package->image != "")?asset($package->image):asset('packages/packages-plan.jpeg') }}" alt="Card image cap">
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{$package->name}} <strong style="float: right;">${{$package->cost}}</strong></h5>
+                                        <p class="card-text">
+                                           {{ Controller::shortString($package->description, 120) }}
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @else 
+                                <p>No Packages</p>
+                            @endif
+                            </div>
+                        </div>
+                        <div class="modal fade" id="largeModalPackages" tabindex="-1" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <form action="{{ route("admin.add-package")}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ isset($user->id)?$user->id:'' }}">
+                                    <input type="hidden" name="package_id" value="">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="modalCenterTitle">Add Package</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-12 mb-3" id="">
+                                                <label for="package_name" class="form-label">Package Name</label>
+                                                <input type="text" id="package_name" name="package_name" class="form-control" required value="" placeholder="Package Name">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="">
+                                            <div class="col mb-3">
+                                                <label for="package_desc" class="form-label">Package Description</label>
+                                                <textarea class="form-control" name="package_desc" required id="package_desc" rows="4"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col mb-3">
+                                                <label for="package_type" class="form-label">Package Type</label>
+                                                <select id="package_type" name="package_type" class="select2 form-select">
+                                                    <option value="basic">Basic</option>
+                                                    <option value="prime">Prime</option>
+                                                    <option value="custom">Custom</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col mb-3">
+                                                <label for="package_cost" class="form-label">Package Cost</label>
+                                                <div class="input-group input-group-merge">
+                                                    <span class="input-group-text">$</span>
+                                                    <input type="text" id="package_cost" required name="package_cost" class="form-control" value="" placeholder="Package Cost">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col mb-3">
+                                                <label class="form-label" for="time_duration">Time Duration</label>
+                                                <select id="time_duration" name="time_duration" class="select2 form-select">
+                                                    <option value="hour">Hours</option>
+                                                    <option value="day">Days</option>
+                                                    <option value="week">Weeks</option>
+                                                    <option value="month">Months</option>
+                                                    <option value="year">Years</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-3">
+                                              <label for="time_duration_time" class="form-label">&nbsp;</label>
+                                              <input id="time_duration_time" min="0" max="15" name="time_duration_time" type="number" required value="" class="form-control" placeholder="3">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="package_image">
+                                            <div class="col mb-3">
+                                                <label for="package_image" class="form-label">Feature Image</label>
+                                                <input class="form-control" type="file" name="package_image" id="package_image">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="">
+                                            <div class="col mb-3">
+                                                <label for="status" class="form-label">Status</label>
+                                                <select id="status" name="status" class="select2 form-select">
+                                                    <option value="1">Publish</option>
+                                                    <option value="0">Draft</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-orders" role="tabpanel">
-                        <h5 class="card-header">Profile Details</h5>
-                        <!-- Account -->
+                        <h5 class="card-header">Order Details</h5>
                         <div class="card-body">
-                           
+                            <div class="table-responsive text-nowrap">
+                                <table class="table table-bordered"  id="order_table">
+                                  <thead>
+                                    <tr>
+                                      <th>Order ID</th>
+                                      <th>Package</th>
+                                      <th>Price</th>
+                                      <th>Date</th>
+                                      <th>Status</th>
+                                      <th>Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Package Demo</td>
+                                        <td>$300</td>
+                                        <td> {{ \Carbon\Carbon::now()->format('d/m/Y') }}</td>
+                                        <td>New Order</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Package Video Editing</td>
+                                        <td>$220</td>
+                                        <td> {{ \Carbon\Carbon::now()->subDays(3)->format('d/m/Y') }}</td>
+                                        <td>In Progress</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Wordpress Website Design</td>
+                                        <td>$200</td>
+                                        <td> {{ \Carbon\Carbon::now()->subDays(8)->format('d/m/Y') }}</td>
+                                        <td>Completed</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>UI/Design</td>
+                                        <td>$120</td>
+                                        <td> {{ \Carbon\Carbon::now()->subDays(19)->format('d/m/Y') }}</td>
+                                        <td>Completed</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Laravel Package Development </td>
+                                        <td>$520</td>
+                                        <td> {{ \Carbon\Carbon::now()->subDays(26)->format('d/m/Y') }}</td>
+                                        <td>In Progress</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
                         </div>
                         <hr class="my-0">
                         <div class="card-body">
@@ -363,9 +547,13 @@
 
 @section('scripts')
 <script src="{{ asset('assets/js/pages-account-settings-account.js') }}"></script>
+{{-- <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> --}}
 
+<!-- Initialize Quill editor -->
 <script>
+
     $(document).ready(function() {
+        CKEDITOR.replace( 'package_desc' );
 
         $('#fileType').change(function(){
             if($(this).val() == 'image') {
@@ -387,7 +575,6 @@
             }
         });
         
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -408,6 +595,8 @@
                 }
             });
         });
+
+        $('#order_table').DataTable();
     });
 </script>
 @endsection

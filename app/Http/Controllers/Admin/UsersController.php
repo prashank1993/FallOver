@@ -7,12 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Packages;
 use App\Role;
 use App\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\UserMeta;
+use App\UserPortfolio;
 
 class UsersController extends Controller
 {
@@ -38,6 +40,9 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         if (isset($request->social_link) && $request->social_link == 'social_link') {
+            $validated = $request->validate([
+                'user_id' => 'required',
+            ]);
             $user = User::where('id', $request->user_id)->first();
             if ($user) {
                 $user_meta = [
@@ -105,7 +110,6 @@ class UsersController extends Controller
                 $this->updateUserAllMeta($user->id, $user_meta);
             }
         }
-
         $msg = 'Success';
         return redirect()->back()->with('msg', $msg);
     }
@@ -113,11 +117,8 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $roles = Role::all()->pluck('title', 'id');
-
         $user->load('roles');
-
         return view('admin.users.edit', compact('roles', 'user'));
     }
 
@@ -136,6 +137,7 @@ class UsersController extends Controller
         abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $user->load('roles');
         $user->load('portfolio');
+        $user->load('packages');
         $user_meta = (object)$this->getUserMeta($user->id);
         $user->meta = $user_meta;
         $data['user'] = $user;
@@ -149,16 +151,13 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $user->delete();
-
         return back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
         User::whereIn('id', request('ids'))->delete();
-
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
@@ -166,12 +165,76 @@ class UsersController extends Controller
     {
         # code...
         $states = $this->getState($request->country_id);
-        // dd($states);
         $html = '<option value="">Select</option>';
         foreach ($states as $key => $value) {
             # code...
             $html .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
         }
         return response()->json(['status' => true, 'html' => $html]);
+    }
+
+    // Add or Edit User Portfolio
+    public function addPortfolio(Request $request)
+    {
+        # code...
+        $data = [
+            'user_id' => $request->user_id,
+            'type' => $request->filetype,
+            'status' => $request->status,
+            'url' => '',
+            'video_type' => ''
+        ];
+        if ($request->filetype == 'image') {
+            if ($request->file('portfolioImage')) {
+                $file = $request->file('portfolioImage');
+                $filename = date('YmdHi') . $file->getClientOriginalName();
+                $file->move(public_path('portfolio/' . $request->user_id . '/images'), $filename);
+            }
+            $data['url'] = 'portfolio/' . $request->user_id . '/images/' . $filename;
+        }
+
+        if ($request->filetype == 'video') {
+            if ($request->videotype == 'manual') {
+                if ($request->file('video_File')) {
+                    $file = $request->file('video_File');
+                    $filename = date('YmdHi') . $file->getClientOriginalName();
+                    $file->move(public_path('portfolio/' . $request->user_id . '/videos'), $filename);
+                }
+            } else {
+                $data['url'] = $request->video_link;
+            }
+            $data['video_type'] = $request->videotype;
+        }
+
+        UserPortfolio::updateOrCreate(['id' => $request->portfolio_id], $data);
+        return back();
+    }
+
+
+    // Packages
+    public function addPackage(Request $request)
+    {
+        # code...
+        $data = [
+            'user_id'       => $request->user_id,
+            'name'          => $request->package_name,
+            'status'        => $request->status,
+            'description'   => $request->package_desc,
+            'cost'          => $request->package_cost,
+            'type'          => $request->package_type,
+            'time'          => $request->time_duration_time . ' ' . $request->time_duration,
+            'image'         => ''
+        ];
+
+        if ($request->file('package_image')) {
+            $file = $request->file('package_image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('packages/' . $request->user_id), $filename);
+            $data['image'] = 'packages/' . $request->user_id . '/' . $filename;
+        }
+
+
+        Packages::updateOrCreate(['id' => $request->package_id], $data);
+        return back();
     }
 }

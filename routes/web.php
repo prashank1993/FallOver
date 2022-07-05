@@ -21,6 +21,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Users
     Route::delete('users/destroy', 'UsersController@massDestroy')->name('users.massDestroy');
     Route::resource('users', 'UsersController');
+    Route::post('add-portfolio', 'UsersController@addPortfolio')->name('add-portfolio');
+    Route::post('add-package', 'UsersController@addPackage')->name('add-package');
 });
 
 Route::post('get-states', [UsersController::class, 'getStates'])->name('get-states');
