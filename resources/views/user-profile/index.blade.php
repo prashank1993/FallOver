@@ -506,10 +506,165 @@ use \App\Http\Controllers\Controller;
                     <div class="tab-pane fade" id="navs-pills-top-earning" role="tabpanel">
                         <h5 class="card-header">Total Earning</h5>
                         <!-- Account -->
+                        <hr class="my-0">
                         <div class="card-body">
-                           
+                            <div class="row">
+                                <div class="col-lg-3 col-md-12 col-3 mb-3">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-title d-flex align-items-start justify-content-between">
+                                        <div class="avatar flex-shrink-0">
+                                          <img src="http://localhost:8000/assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+                                        </div>
+                                        {{-- <div class="dropdown">
+                                          <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                          </div>
+                                        </div> --}}
+                                      </div>
+                                      <span class="fw-semibold d-block mb-1">Total Earning</span>
+                                      <h3 class="card-title mb-2">$12,628</h3>
+                                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12 col-3 mb-3">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-title d-flex align-items-start justify-content-between">
+                                        <div class="avatar flex-shrink-0">
+                                          <img src="{{asset('assets/img/icons/unicons/wallet-info.png')}}" alt="Credit Card" class="rounded">
+                                        </div>
+                                        {{-- <div class="dropdown">
+                                          <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                          </button>
+                                          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                          </div>
+                                        </div> --}}
+                                      </div>
+                                      <span>Pending Amount</span>
+                                      <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+                                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12 col-3 mb-3">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <div class="card-title d-flex align-items-start justify-content-between">
+                                          <div class="avatar flex-shrink-0">
+                                            <img src="http://localhost:8000/assets/img/icons/unicons/chart-success.png" alt="chart success" class="rounded">
+                                          </div>
+                                          {{-- <div class="dropdown">
+                                            <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                                              <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                              <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                            </div>
+                                          </div> --}}
+                                        </div>
+                                        <span class="fw-semibold d-block mb-1">Completed</span>
+                                        <h3 class="card-title mb-2">$1,228</h3>
+                                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-12 col-3 mb-3">
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <div class="card-title d-flex align-items-start justify-content-between">
+                                          <div class="avatar flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/unicons/wallet-info.png')}}" alt="Credit Card" class="rounded">
+                                          </div>
+                                            {{-- <div class="dropdown">
+                                                <button class="btn p-0" type="button" id="cardOpt6" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
+                                                <a class="dropdown-item" href="javascript:void(0);">View More</a>
+                                                <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                                                </div>
+                                            </div> --}}
+                                        </div>
+                                        <span>Withdrawal</span>
+                                        <h3 class="card-title text-nowrap mb-1">$4,679</h3>
+                                        <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <hr class="my-0">
+                        <h5 class="card-header">Transactions</h5>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-12 mb-12">
+                                    <!-- Transactions -->
+                                    
+                                    <div class="col-md-12 col-lg-12 order-12 mb-12">
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table table-bordered"  id="order_table">
+                                                <thead>
+                                                <tr>
+                                                    <th>#ID</th>
+                                                    <th>Title</th>
+                                                    <th>Amount</th>
+                                                    <th>Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Earning From Package Demo</td>
+                                                    <td>$300</td>
+                                                    <td> {{ \Carbon\Carbon::now()->format('d/m/Y') }}</td>
+                                                    <td>Pending</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Earning From Package Video Editing</td>
+                                                    <td>$220</td>
+                                                    <td> {{ \Carbon\Carbon::now()->subDays(3)->format('d/m/Y') }}</td>
+                                                    <td>Pending</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Earning From Wordpress Website Design</td>
+                                                    <td>$200</td>
+                                                    <td> {{ \Carbon\Carbon::now()->subDays(8)->format('d/m/Y') }}</td>
+                                                    <td>Completed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Earning From UI/Design</td>
+                                                    <td>$120</td>
+                                                    <td> {{ \Carbon\Carbon::now()->subDays(19)->format('d/m/Y') }}</td>
+                                                    <td>Completed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>Withdrawal of Amount</td>
+                                                    <td>$520</td>
+                                                    <td> {{ \Carbon\Carbon::now()->subDays(26)->format('d/m/Y') }}</td>
+                                                    <td>Withdrawal</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <form id="formAccountSettings" method="POST" onsubmit="return false">
                             {{--  --}}
