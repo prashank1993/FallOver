@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin');
+
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -23,6 +25,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('users', 'UsersController');
     Route::post('add-portfolio', 'UsersController@addPortfolio')->name('add-portfolio');
     Route::post('add-package', 'UsersController@addPackage')->name('add-package');
+
+    // Site Settings
+    Route::get('/settings', 'HomeController@SiteSettings')->name('settings');
+    Route::post('/settings', 'HomeController@UpdateSetting')->name('update-settings');
 });
 
 Route::post('get-states', [UsersController::class, 'getStates'])->name('get-states');

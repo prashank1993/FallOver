@@ -36,27 +36,12 @@ class Controller extends BaseController
     public static function updateUserAllMeta($user_id, $meta_key_value = [])
     {
         //
-        $key_value = [];
         foreach ($meta_key_value as $key => $value) {
             # code...
-            // $key_value[] = [
-            //     'user_id'   => $user_id,
-            //     'key'       => $key,
-            //     'value'     => $value,
-            // ];
             UserMeta::updateOrCreate(
                 ['user_id' => $user_id, 'key' => $key],
                 ['value' => ($value) ?? '']
             );
-        }
-
-        // UserMeta::upsert($key_value, ['user_id', 'key'], ['value']);
-        // dd($key_value);
-        try {
-
-            return true;
-        } catch (Exception $e) {
-            return $e;
         }
     }
 

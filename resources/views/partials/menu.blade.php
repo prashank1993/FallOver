@@ -14,35 +14,11 @@
     </li>
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-            <div data-i18n="Account Settings">Accounts</div>
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Account Settings">Dashboard</div>
         </a>
     </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-message-rounded-edit"></i>
-            <div data-i18n="Account Settings">Social Media</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-money"></i>
-            <div data-i18n="Authentications">Payments</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-            <div data-i18n="Misc">Orders</div>
-        </a>
-    </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bxs-report"></i>
-            <div data-i18n="Misc">Reports</div>
-        </a>
-    </li>
-    @can('user_management_access')
+	@can('user_management_access')
     <li class="menu-item {{ request()->is('admin/permissions*') ? 'active open' : '' }} {{ request()->is('admin/roles*') ? 'active open' : '' }} {{ request()->is('admin/users*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle ">
             <i class='menu-icon bx bx-user'></i>
@@ -73,19 +49,76 @@
         </ul>
     </li>
     @endcan
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-message-rounded-edit"></i>
+            <div data-i18n="Account Settings">Social Media</div>
+        </a>
+    </li>
+    
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+            <div data-i18n="Misc">Orders</div>
+        </a>
+		    <ul class="menu-sub">
+       
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link ">
+                    <div data-i18n="Vertical Form">Active Orders</div>
+                </a>
+            </li>
+        
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link ">
+                    <div data-i18n="Vertical Form">Late Orders</div>
+                </a>
+            </li>
+        
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Delivered Orders</div>
+                </a>
+            </li>
+			      <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Completed Orders</div>
+                </a>
+            </li>
+			      <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Cancelled Orders</div>
+                </a>
+            </li>
+        
+        </ul>
+    </li>
+	<li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-money"></i>
+            <div data-i18n="Authentications">Transactions</div>
+        </a>
+    </li>
+    <li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bxs-report"></i>
+            <div data-i18n="Misc">Analytics</div>
+        </a>
+    </li>
+    
     <!-- Components -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Brands</span></li>
     <!-- Cards -->
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-            <div data-i18n="Account Settings">Accounts</div>
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="Account Settings">Dashboard</div>
         </a>
     </li>
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-money"></i>
-            <div data-i18n="Authentications">Payments</div>
+            <i class="menu-icon tf-icons bx bx-user"></i>
+            <div data-i18n="Misc">Users</div>
         </a>
     </li>
     <li class="menu-item">
@@ -93,19 +126,57 @@
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
             <div data-i18n="Misc">Orders</div>
         </a>
+		<ul class="menu-sub">
+       
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link ">
+                    <div data-i18n="Vertical Form">Active Orders</div>
+                </a>
+            </li>
+        
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link ">
+                    <div data-i18n="Vertical Form">Late Orders</div>
+                </a>
+            </li>
+        
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Delivered Orders</div>
+                </a>
+            </li>
+			 <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Completed Orders</div>
+                </a>
+            </li>
+			 <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link">
+                    <div data-i18n="Vertical Form">Cancelled Orders</div>
+                </a>
+            </li>
+        
+        </ul>
+    </li>
+	<li class="menu-item">
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <i class="menu-icon tf-icons bx bx-money"></i>
+            <div data-i18n="Authentications">Transactions</div>
+        </a>
     </li>
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bxs-report"></i>
-            <div data-i18n="Misc">Reports</div>
+            <div data-i18n="Misc">Analytics</div>
         </a>
     </li>
+	
 
     <!-- Misc -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Support</span></li>
     
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link">
+    <li class="menu-item {{ request()->is('admin/settings') ? 'active' : '' }}">
+        <a href="{{route('admin.settings')}}" class="menu-link">
             <i class='menu-icon bx bx-cog me-2'></i>
             <div data-i18n="Setting">Settings</div>
         </a>
