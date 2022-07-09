@@ -12,8 +12,6 @@ use \App\Http\Controllers\Controller;
             <div class="nav-align-top mb-4">
                 <div class="tab-content card mb-4" style="padding: 0; ">
                     <div class="tab-pane fade  show active" id="navs-pills-top-social" role="tabpanel">
-                        
-                        
                         <form action="{{ route("admin.update-settings") }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <h5 class="card-header">Site Information</h5>

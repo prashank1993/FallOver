@@ -29,6 +29,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Site Settings
     Route::get('/settings', 'HomeController@SiteSettings')->name('settings');
     Route::post('/settings', 'HomeController@UpdateSetting')->name('update-settings');
+
+    // Orders
+    Route::get('/influencer-orders/{slug}/', 'Orders@influencerOrders')->name('influencer-orders');
+    Route::get('/brand-orders/{slug}/', 'Orders@brandOrders')->name('brand-orders');
 });
 
 Route::post('get-states', [UsersController::class, 'getStates'])->name('get-states');

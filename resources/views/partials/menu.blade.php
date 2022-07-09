@@ -56,44 +56,44 @@
         </a>
     </li>
     
-    <li class="menu-item">
+    <li class="menu-item {{ request()->is('admin/influencer-orders*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-cube-alt"></i>
             <div data-i18n="Misc">Orders</div>
         </a>
 		    <ul class="menu-sub">
        
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link ">
+            <li class="menu-item {{ request()->is('admin/influencer-orders') || request()->is('admin/influencer-orders/active') ? 'active' : '' }}">
+                <a href="{{route('admin.influencer-orders', 'active')}}" class="menu-link ">
                     <div data-i18n="Vertical Form">Active Orders</div>
                 </a>
             </li>
         
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link ">
+            <li class="menu-item {{ request()->is('admin/influencer-orders') || request()->is('admin/influencer-orders/late') ? 'active' : '' }}">
+                <a href="{{route('admin.influencer-orders', 'late')}}" class="menu-link ">
                     <div data-i18n="Vertical Form">Late Orders</div>
                 </a>
             </li>
         
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
+            <li class="menu-item {{ request()->is('admin/influencer-orders') || request()->is('admin/influencer-orders/delivered') ? 'active' : '' }}">
+                <a href="{{route('admin.influencer-orders', 'delivered')}}" class="menu-link">
                     <div data-i18n="Vertical Form">Delivered Orders</div>
                 </a>
             </li>
-			      <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
+			      <li class="menu-item {{ request()->is('admin/influencer-orders') || request()->is('admin/influencer-orders/completed') ? 'active' : '' }}">
+                <a href="{{route('admin.influencer-orders', 'completed')}}" class="menu-link">
                     <div data-i18n="Vertical Form">Completed Orders</div>
                 </a>
             </li>
-			      <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
+			      <li class="menu-item {{ request()->is('admin/influencer-orders') || request()->is('admin/influencer-orders/cancelled') ? 'active' : '' }}">
+                <a href="{{route('admin.influencer-orders', 'cancelled')}}" class="menu-link">
                     <div data-i18n="Vertical Form">Cancelled Orders</div>
                 </a>
             </li>
         
         </ul>
     </li>
-	<li class="menu-item">
+	  <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-money"></i>
             <div data-i18n="Authentications">Transactions</div>
@@ -121,43 +121,43 @@
             <div data-i18n="Misc">Users</div>
         </a>
     </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-            <div data-i18n="Misc">Orders</div>
-        </a>
-		<ul class="menu-sub">
-       
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link ">
-                    <div data-i18n="Vertical Form">Active Orders</div>
-                </a>
-            </li>
-        
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link ">
-                    <div data-i18n="Vertical Form">Late Orders</div>
-                </a>
-            </li>
-        
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
-                    <div data-i18n="Vertical Form">Delivered Orders</div>
-                </a>
-            </li>
-			 <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
-                    <div data-i18n="Vertical Form">Completed Orders</div>
-                </a>
-            </li>
-			 <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link">
-                    <div data-i18n="Vertical Form">Cancelled Orders</div>
-                </a>
-            </li>
-        
-        </ul>
-    </li>
+    <li class="menu-item {{ request()->is('admin/brand-orders*') ? 'active open' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+          <div data-i18n="Misc">Orders</div>
+      </a>
+      <ul class="menu-sub">
+     
+          <li class="menu-item {{ request()->is('admin/brand-orders') || request()->is('admin/brand-orders/active') ? 'active' : '' }}">
+              <a href="{{route('admin.brand-orders', 'active')}}" class="menu-link ">
+                  <div data-i18n="Vertical Form">Active Orders</div>
+              </a>
+          </li>
+      
+          <li class="menu-item {{ request()->is('admin/brand-orders') || request()->is('admin/brand-orders/late') ? 'active' : '' }}">
+              <a href="{{route('admin.brand-orders', 'late')}}" class="menu-link ">
+                  <div data-i18n="Vertical Form">Late Orders</div>
+              </a>
+          </li>
+      
+          <li class="menu-item {{ request()->is('admin/brand-orders') || request()->is('admin/brand-orders/delivered') ? 'active' : '' }}">
+              <a href="{{route('admin.brand-orders', 'delivered')}}" class="menu-link">
+                  <div data-i18n="Vertical Form">Delivered Orders</div>
+              </a>
+          </li>
+          <li class="menu-item {{ request()->is('admin/brand-orders') || request()->is('admin/brand-orders/completed') ? 'active' : '' }}">
+              <a href="{{route('admin.brand-orders', 'completed')}}" class="menu-link">
+                  <div data-i18n="Vertical Form">Completed Orders</div>
+              </a>
+          </li>
+          <li class="menu-item {{ request()->is('admin/brand-orders') || request()->is('admin/brand-orders/cancelled') ? 'active' : '' }}">
+              <a href="{{route('admin.brand-orders', 'cancelled')}}" class="menu-link">
+                  <div data-i18n="Vertical Form">Cancelled Orders</div>
+              </a>
+          </li>
+      
+      </ul>
+  </li>
 	<li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-money"></i>
