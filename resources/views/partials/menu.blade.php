@@ -12,12 +12,12 @@
     <li class="menu-header small text-uppercase">
         <span class="menu-header-text">Influencer</span>
     </li>
-    <li class="menu-item">
+    {{-- <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="Account Settings">Dashboard</div>
         </a>
-    </li>
+    </li> --}}
 	@can('user_management_access')
     <li class="menu-item {{ request()->is('admin/permissions*') ? 'active open' : '' }} {{ request()->is('admin/roles*') ? 'active open' : '' }} {{ request()->is('admin/users*') ? 'active open' : '' }}">
         <a href="javascript:void(0);" class="menu-link menu-toggle ">

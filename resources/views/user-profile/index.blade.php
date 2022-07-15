@@ -88,13 +88,13 @@ use \App\Http\Controllers\Controller;
                             <div class="card-body">
                                 <div class="row">
                                     <div class="mb-3 col-md-6">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input class="form-control @error('firstName') is-invalid @enderror" type="text" id="firstName" placeholder="Frist Name" name="firstName" value="{{($user->first_name)??''}}">
+                                        <label for="full_name" class="form-label">Full Name</label>
+                                        <input class="form-control @error('full_name') is-invalid @enderror" type="text" id="full_name" placeholder="Full Name" name="full_name" value="{{($user->full_name)??''}}">
                                     </div>
-                                    <div class="mb-3 col-md-6">
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="lastName" class="form-label">Last Name</label>
                                         <input class="form-control @error('lastName') is-invalid @enderror" type="text" name="lastName" placeholder="Last Name" id="lastName" value="{{($user->last_name)??''}}">
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3 col-md-6">
                                         <label for="email" class="form-label">E-mail</label>
                                         <input class="form-control @error('email') is-invalid @enderror" type="text" id="email" name="email" value="{{($user->email)??''}}" placeholder="Email">
@@ -103,10 +103,10 @@ use \App\Http\Controllers\Controller;
                                         <label for="password" class="form-label">Passwors</label>
                                         <input class="form-control @error('password') is-invalid @enderror" type="password" id="password" name="password" value="" placeholder="&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;&middot;">
                                     </div>
-                                    <div class="mb-3 col-md-6">
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="organization" class="form-label">Organization</label>
                                         <input type="text" class="form-control" id="organization" placeholder="Organization" name="organization" value="{{($user->meta->organization)??''}}">
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3 col-md-6">
                                         {{-- <div class="input-group input-group-merge"> --}}
                                             <label class="form-label" for="phoneNumber">Phone Number</label>
@@ -115,9 +115,13 @@ use \App\Http\Controllers\Controller;
                                         {{-- </div> --}}
                                     </div>
                                     <div class="mb-3 col-md-6">
+                                        <label class="form-label" for="whatsapp">WhatsApp Number</label>
+                                        <input type="text" id="whatsapp" name="whatsapp"  value="{{($user->meta->whatsapp)??''}}" class="form-control" placeholder="WhatsApp Number">
+                                    </div>
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="address" class="form-label">Address</label>
                                         <input type="text" class="form-control" id="address" value="{{($user->meta->address)??''}}" name="address" placeholder="Address">
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label" for="country">Country</label>
                                         <select id="country" name="country" class="select2 form-select">
@@ -127,7 +131,7 @@ use \App\Http\Controllers\Controller;
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3 col-md-6">
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="state" class="form-label">State</label>
                                         <select id="state" name="state" class="select2 form-select">
                                             <option value="">Select</option>
@@ -137,16 +141,16 @@ use \App\Http\Controllers\Controller;
                                             @endforeach
                                             @endisset
                                         </select>
-                                    </div>
-                                    <div class="mb-3 col-md-6">
+                                    </div> --}}
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="city" class="form-label">City</label>
                                         <input type="text" class="form-control" id="city" name="city" value="{{($user->meta->city)??''}}" placeholder="City">
-                                    </div>
-                                    <div class="mb-3 col-md-6">
+                                    </div> --}}
+                                    {{-- <div class="mb-3 col-md-6">
                                         <label for="zipCode" class="form-label">Zip Code</label>
                                         <input type="text" class="form-control" id="zipCode" name="zipCode" value="{{($user->meta->zipCode)??''}}" placeholder="Zip Code" maxlength="6">
-                                    </div>
-                                    @can('role_access')
+                                    </div> --}}
+                                    {{-- @can('role_access')
                                     <div class="mb-3 col-md-6">
                                         <label for="roles" class="form-label">Select Role</label>
                                         <select id="roles" name="roles[]" class="select2 form-select" multiple="multiple" required>
@@ -157,7 +161,17 @@ use \App\Http\Controllers\Controller;
                                             @endisset
                                         </select>
                                     </div>
-                                    @endcan
+                                    @endcan --}}
+
+                                    <div class="mb-3 col-md-6">
+                                        <label for="language" class="form-label">Language</label>
+                                        <input type="text" class="form-control" id="language" name="language" value="{{($user->language)??''}}" placeholder="Language">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="brief_desc" class="form-label">Brief Description</label>
+                                        <textarea class="form-control" name="brief_desc" required id="brief_desc" rows="4">{{($user->meta->brief_desc)??''}}</textarea>
+                                        {{-- <input type="text" class="form-control" id="language" name="language" value="{{($user->meta->language)??''}}" placeholder="Brief Description"> --}}
+                                    </div>
                                 </div>
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary me-2">Save changes</button>
@@ -175,6 +189,9 @@ use \App\Http\Controllers\Controller;
                               <table class="table table-bordered">
                                 <thead>
                                   <tr>
+                                    <th>#ID</th>
+                                    <th>Title</th>
+                                    <th>Tags</th>
                                     <th>Item</th>
                                     <th>Type</th>
                                     <th>Date</th>
@@ -186,6 +203,9 @@ use \App\Http\Controllers\Controller;
                                     @if(isset($user->portfolio) && count($user->portfolio) > 0)
                                     @foreach ($user->portfolio as $portfolio)
                                     <tr>
+                                        <td>{{ucFirst($portfolio->id)}}</td>
+                                        <td>{{ucFirst($portfolio->title)}}</td>
+                                        <td>{{ucFirst($portfolio->tags)}}</td>
                                         <td style="text-align: center; width: 125px;">
                                             @if($portfolio->type == 'image')
                                             <img src="{{ asset($portfolio->url) }}" style="height:100px; object-fit: cover; width: 110px;" alt="Avatar" class="">
@@ -226,6 +246,14 @@ use \App\Http\Controllers\Controller;
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
+                                                <div class="col-12 mb-3" id="videoLink">
+                                                    <label for="title" class="form-label">Portfolio Title</label>
+                                                    <input type="text" id="title" name="title" class="form-control" value="" placeholder="Portfolio Title" required>
+                                                </div>
+                                                <div class="col-12 mb-3" id="videoLink">
+                                                    <label for="tags" class="form-label">Tags</label>
+                                                    <input type="text" id="tags" name="tags" class="form-control" value="" placeholder="Tags" required>
+                                                </div>
                                                 <div class="col mb-3">
                                                     <label for="fileType" class="form-label">Type</label>
                                                     <select id="fileType" name="filetype" class="select2 form-select">

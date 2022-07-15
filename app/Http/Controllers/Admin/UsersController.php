@@ -55,17 +55,17 @@ class UsersController extends Controller
                 $status = $this->updateUserMeta($request->user_id, 'socialLinks', json_encode($user_meta));
             }
         }
-        // UserPortfolio
+
         if (isset($request->profile_details)) {
             $validated = $request->validate([
-                'firstName' => 'required|max:255',
-                'lastName' => 'required|max:255',
+                'full_name' => 'required|max:255',
+                // 'lastName' => 'required|max:255',
                 'profile_photo' => 'mimes:jpg,png,jpeg',
             ]);
 
             $user_data = [
-                'first_name' => $request->firstName,
-                'last_name' => $request->lastName,
+                'full_name' => $request->full_name,
+                // 'last_name' => $request->lastName,
                 'name' => $request->firstName . ' ' . $request->lastName,
                 'email' => $request->email,
                 'phone' => $request->phoneNumber,
@@ -98,12 +98,14 @@ class UsersController extends Controller
             }
 
             $user_meta = [
-                'organization'  => $request->organization,
-                'country'       => $request->country,
-                'state'         => $request->state,
-                'zipCode'       => $request->zipCode,
-                'city'          => $request->city,
-                'address'       => $request->address,
+                'organization'  => ($request->organization) ?? '',
+                'country'       => ($request->country) ?? '',
+                'state'         => ($request->state) ?? '',
+                'zipCode'       => ($request->zipCode) ?? '',
+                'city'          => ($request->city) ?? '',
+                'address'       => ($request->address) ?? '',
+                'brief_desc'       => ($request->brief_desc) ?? '',
+                'whatsapp'       => ($request->whatsapp) ?? '',
             ];
 
             if (count($user_meta) > 0) {
@@ -181,6 +183,8 @@ class UsersController extends Controller
             'user_id' => $request->user_id,
             'type' => $request->filetype,
             'status' => $request->status,
+            'title' => $request->title,
+            'tags' => $request->tags,
             'url' => '',
             'video_type' => ''
         ];

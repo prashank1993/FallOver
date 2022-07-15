@@ -12,6 +12,8 @@ class UserPortfolio extends Model
 
     protected $fillable = [
         'user_id',
+        'title',
+        'tags',
         'type',
         'video_type',
         'url',
