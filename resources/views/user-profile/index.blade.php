@@ -150,7 +150,7 @@ use \App\Http\Controllers\Controller;
                                         <label for="zipCode" class="form-label">Zip Code</label>
                                         <input type="text" class="form-control" id="zipCode" name="zipCode" value="{{($user->meta->zipCode)??''}}" placeholder="Zip Code" maxlength="6">
                                     </div> --}}
-                                    {{-- @can('role_access')
+                                    @can('role_access')
                                     <div class="mb-3 col-md-6">
                                         <label for="roles" class="form-label">Select Role</label>
                                         <select id="roles" name="roles[]" class="select2 form-select" multiple="multiple" required>
@@ -161,7 +161,7 @@ use \App\Http\Controllers\Controller;
                                             @endisset
                                         </select>
                                     </div>
-                                    @endcan --}}
+                                    @endcan
 
                                     <div class="mb-3 col-md-6">
                                         <label for="language" class="form-label">Language</label>
