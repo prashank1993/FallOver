@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/login');
 Route::redirect('/home', '/admin');
 
+Route::get('/login/{social}', 'Auth\LoginController@socialLogin')->where('social', 'twitter|facebook|linkedin|google|github|bitbucket');
+Route::get('/login/{social}/callback', 'Auth\LoginController@handleProviderCallback')->where('social', 'twitter|facebook|linkedin|google|github|bitbucket');
+
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
@@ -33,6 +36,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Orders
     Route::get('/influencer-orders/{slug}/', 'Orders@influencerOrders')->name('influencer-orders');
     Route::get('/brand-orders/{slug}/', 'Orders@brandOrders')->name('brand-orders');
+
+
+    Route::post('/get-portfolio-details', 'UsersController@getPortfolioDetails')->name('get-portfolio-details');
 });
 
 Route::post('get-states', [UsersController::class, 'getStates'])->name('get-states');

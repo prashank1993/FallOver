@@ -90,9 +90,8 @@ class UsersController extends Controller
             if ($request->file('profile_photo')) {
                 $file = $request->file('profile_photo');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $path = $file->storeAs('userPhotos/' . $user->id, $filename);
-
-                $user->profile_photo = $path;
+                $file->move('userPhotos/' . $user->id, $filename);
+                $user->profile_photo = 'userPhotos/'  . $user->id . '/' . $filename;
                 $user->save();
             }
 
@@ -184,16 +183,15 @@ class UsersController extends Controller
             'status' => $request->status,
             'title' => $request->title,
             'tags' => $request->tags,
-            'url' => '',
-            'video_type' => ''
         ];
+
         if ($request->filetype == 'image') {
             if ($request->file('portfolioImage')) {
                 $file = $request->file('portfolioImage');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $path = $file->storeAs('portfolio/' . $request->user_id . '/images', $filename);
+                $file->move('portfolio/' . $request->user_id . '/images', $filename);
+                $data['url'] = 'portfolio/' . $request->user_id . '/images/' . $filename;
             }
-            $data['url'] = $path;
         }
 
         if ($request->filetype == 'video') {
@@ -201,11 +199,13 @@ class UsersController extends Controller
                 if ($request->file('video_File')) {
                     $file = $request->file('video_File');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $path = $file->storeAs('portfolio/' . $request->user_id . '/videos', $filename);
-                    $data['url'] = $path;
+                    $file->move('portfolio/' . $request->user_id . '/videos', $filename);
+                    $data['url'] = 'portfolio/' . $request->user_id . '/videos/' . $filename;
                 }
             } else {
-                $data['url'] = $request->video_link;
+                if (isset($request->video_link)) {
+                    $data['url'] = $request->video_link;
+                }
             }
             $data['video_type'] = $request->videotype;
         }
@@ -233,12 +233,20 @@ class UsersController extends Controller
         if ($request->file('package_image')) {
             $file = $request->file('package_image');
             $filename = date('YmdHi') . $file->getClientOriginalName();
-            $path = $file->storeAs('packages/' . $request->user_id, $filename);
-            $data['image'] = $path; //'packages/' . $request->user_id . '/' . $filename;
+            $file->move('packages/' . $request->user_id, $filename);
+            $data['image'] = 'packages/' . $request->user_id . '/' . $filename;
         }
 
 
         Packages::updateOrCreate(['id' => $request->package_id], $data);
         return back();
+    }
+
+
+    public function getPortfolioDetails(Request $request)
+    {
+        # code...
+        $data = UserPortfolio::where('id', $request->portfolio_id)->first();
+        return response()->json(['status' => ($data) ? true : false, 'data' => $data]);
     }
 }

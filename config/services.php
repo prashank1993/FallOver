@@ -44,4 +44,21 @@ return [
         ],
     ],
 
+    'facebook' => [
+        'client_id' => '', //Facebook API
+        'client_secret' => '', //Facebook Secret
+        'redirect' => env('SITE_URL') . '/login/facebook/callback',
+    ],
+
+    'github' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => env('SITE_URL') . '/login/github/callback',
+    ],
+    'twitter' => [
+        'client_id' => '',
+        'client_secret' => '',
+        'redirect' => env('SITE_URL') . '/login/twitter/callback',
+    ],
+
 ];

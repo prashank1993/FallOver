@@ -128,4 +128,10 @@ class Controller extends BaseController
         $string = strip_tags($string);
         return strlen($string) > $limit ? substr($string, 0, $limit) . " ..." : $string;
     }
+
+
+    public static function getImage($url)
+    {
+        return url($url);
+    }
 }

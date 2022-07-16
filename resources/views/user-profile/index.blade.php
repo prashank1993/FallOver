@@ -2,7 +2,6 @@
 @section('content')
 @php
 use \App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 @endphp
 <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
 
@@ -66,7 +65,7 @@ use Illuminate\Support\Facades\Storage;
                             <input type="hidden" name="profile_details" value="profile_details">
                             <div class="card-body">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                <img src="{{ (isset($user) && $user->profile_photo)?Storage::url($user->profile_photo):url('userPhotos/demo.jpeg') }}" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                <img src="{{ (isset($user) && $user->profile_photo)? Controller::getImage($user->profile_photo):url('userPhotos/demo.jpeg') }}" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                     <span class="d-none d-sm-block">Upload new photo</span>
@@ -183,7 +182,7 @@ use Illuminate\Support\Facades\Storage;
                         </form>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-portfolio" role="tabpanel">
-                        <h5 class="card-header">Portfolio <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalPortfolio">Add New</button></h5>
+                        <h5 class="card-header">Portfolio <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm add_new_portfolio" data-bs-toggle="modal" data-bs-target="#modalPortfolio">Add New</button></h5>
                         <hr class="my-0">
                         <div class="card-body">
                             <div class="table-responsive text-nowrap">
@@ -224,8 +223,8 @@ use Illuminate\Support\Facades\Storage;
                                             <span class="badge bg-label-danger me-1">In Active</span></td>
                                             @endif
                                         <td>
-                                            <a class="btn btn-outline-secondary btn-sm" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                            <a class="btn btn-outline-danger btn-sm" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            <a class="btn btn-outline-secondary btn-sm editPortfolio"  data-bs-toggle="modal" data-bs-target="#modalPortfolio" portfolio-id="{{$portfolio->id}}" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                            <a class="btn btn-outline-danger btn-sm deletePortfolio" portfolio-id="{{$portfolio->id}}" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -239,25 +238,25 @@ use Illuminate\Support\Facades\Storage;
                                 <div class="modal-content">
                                     <form action="{{ route("admin.add-portfolio") }}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="user_id" value="{{ isset($user->id)?$user->id:'' }}">
-                                        <input type="hidden" name="portfolio_id" value="">
+                                        <input type="hidden" class="portfolio_user_id" name="user_id" value="{{ isset($user->id)?$user->id:'' }}">
+                                        <input type="hidden" class="portfolio_id" name="portfolio_id" value="">
                                         <div class="modal-header">
                                         <h5 class="modal-title" id="modalCenterTitle">Add Portfolio</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-12 mb-3" id="videoLink">
+                                                <div class="col-12 mb-3" >
                                                     <label for="title" class="form-label">Portfolio Title</label>
-                                                    <input type="text" id="title" name="title" class="form-control" value="" placeholder="Portfolio Title" required>
+                                                    <input type="text" id="title" name="title" class="form-control protfolio_title" value="" placeholder="Portfolio Title" required>
                                                 </div>
-                                                <div class="col-12 mb-3" id="videoLink">
+                                                <div class="col-12 mb-3">
                                                     <label for="tags" class="form-label">Tags</label>
-                                                    <input type="text" id="tags" name="tags" class="form-control" value="" placeholder="Tags" required>
+                                                    <input type="text" id="tags" name="tags" class="form-control protfolio_tags" value="" placeholder="Tags" required>
                                                 </div>
                                                 <div class="col mb-3">
                                                     <label for="fileType" class="form-label">Type</label>
-                                                    <select id="fileType" name="filetype" class="select2 form-select">
+                                                    <select id="fileType" name="filetype" class="select2 form-select protfolio_type">
                                                         <option value="image">Image</option>
                                                         <option value="video">Video</option>
                                                     </select>
@@ -266,20 +265,20 @@ use Illuminate\Support\Facades\Storage;
                                             <div class="row" id="imageType">
                                                 <div class="col mb-3">
                                                     <label for="formFile" class="form-label">Portfolio Image</label>
-                                                    <input class="form-control" type="file" name="portfolioImage" id="formFile">
+                                                    <input class="form-control protfolio_image" type="file" name="portfolioImage" id="formFile">
                                                 </div>
                                             </div>
                                             <div class="row g-2" id="videoType">
                                                 <div class="col-12 mb-3">
                                                     <label for="video_Type" class="form-label">Video Type</label>
-                                                    <select id="video_Type" name="videotype" class="select2 form-select">
+                                                    <select id="video_Type" name="videotype" class="select2 form-select protfolio_video_type">
                                                         <option value="youtube">Youtube Video</option>
                                                         <option value="manual">Video</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-12 mb-3" id="videoLink">
                                                     <label for="video_link" class="form-label">Youtube Video</label>
-                                                    <input type="text" id="video_link" name="video_link" class="form-control" value="https://www.youtube.com/watch?v=MJGzd1_mGao" placeholder="www.youtube.com/watch?v=video-url">
+                                                    <input type="text" id="video_link" name="video_link" class="form-control protfolio_youtube_video" value="https://www.youtube.com/watch?v=MJGzd1_mGao" placeholder="www.youtube.com/watch?v=video-url">
                                                 </div>
                                                 <div class="col-12 mb-3" id="videoFile">
                                                     <label for="video_File" class="form-label">Video</label>
@@ -289,7 +288,7 @@ use Illuminate\Support\Facades\Storage;
                                             <div class="row imageType">
                                                 <div class="col mb-3">
                                                     <label for="status" class="form-label">Status</label>
-                                                    <select id="status" name="status" class="select2 form-select">
+                                                    <select id="status" name="status" class="select2 form-select protfolio_status">
                                                         <option value="1">Active</option>
                                                         <option value="0">In Active</option>
                                                     </select>
@@ -308,7 +307,7 @@ use Illuminate\Support\Facades\Storage;
                     <div class="tab-pane fade" id="navs-pills-top-social" role="tabpanel">
                         <h5 class="card-header">Social Links</h5>
                         <hr class="my-0">
-                        <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
+                        {{-- <form action="{{ route("admin.users.store") }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="user_id" value="{{($user->id)??''}}">
                             <input type="hidden" name="social_link" value="social_link">
@@ -340,7 +339,100 @@ use Illuminate\Support\Facades\Storage;
                                 </div>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
-                        </form>
+                        </form> --}}
+
+                        <div class="card-body">
+                            <p>Display content from your connected accounts on your site</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <!-- Connections -->
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/brands/google.png')}}" alt="google" class="me-3" height="30">
+                                        </div>
+                                        <div class="flex-grow-1 row">
+                                            <div class="col-9 mb-sm-0 mb-2">
+                                                <h6 class="mb-0">Google</h6>
+                                                {{-- <small class="text-muted">Calendar and contacts</small> --}}
+                                            </div>
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                <input class="form-check-input float-end" type="checkbox" role="switch">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/brands/slack.png')}}" alt="slack" class="me-3" height="30">
+                                        </div>
+                                        <div class="flex-grow-1 row">
+                                            <div class="col-9 mb-sm-0 mb-2">
+                                                <h6 class="mb-0">Slack</h6>
+                                                {{-- <small class="text-muted">Communication</small> --}}
+                                            </div>
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                <input class="form-check-input float-end" type="checkbox" role="switch" checked="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/brands/github.png')}}" alt="github" class="me-3" height="30">
+                                        </div>
+                                        <div class="flex-grow-1 row">
+                                            <div class="col-9 mb-sm-0 mb-2">
+                                                <h6 class="mb-0">Github</h6>
+                                                {{-- <small class="text-muted">Manage your Git repositories</small> --}}
+                                            </div>
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                <input class="form-check-input float-end" type="checkbox" role="switch">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/brands/mailchimp.png')}}" alt="mailchimp" class="me-3" height="30">
+                                        </div>
+                                        <div class="flex-grow-1 row">
+                                            <div class="col-9 mb-sm-0 mb-2">
+                                                <h6 class="mb-0">Mailchimp</h6>
+                                                {{-- <small class="text-muted">Email marketing service</small> --}}
+                                            </div>
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                <input class="form-check-input float-end" type="checkbox" role="switch" checked="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <img src="{{asset('assets/img/icons/brands/asana.png')}}" alt="asana" class="me-3" height="30">
+                                        </div>
+                                        <div class="flex-grow-1 row">
+                                            <div class="col-9 mb-sm-0 mb-2">
+                                                <h6 class="mb-0">Asana</h6>
+                                                {{-- <small class="text-muted">Communication</small> --}}
+                                            </div>
+                                            <div class="col-3 text-end">
+                                                <div class="form-check form-switch">
+                                                <input class="form-check-input float-end" type="checkbox" role="switch" checked="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /Connections -->
+                                </div>
+                                <div class="col-6"></div>
+                            </div>
+                            
+                            
+                          </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-packages" role="tabpanel">
                         <h5 class="card-header">Packages <button type="button" style="float: right;" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#largeModalPackages">Add New</button></h5>
@@ -779,6 +871,61 @@ use Illuminate\Support\Facades\Storage;
                 }
             });
         });
+
+        
+        $(document).on("click",".add_new_portfolio",function() {
+            $('.portfolio_id').attr('value','');
+            $('.portfolio_user_id').attr('value','');
+            $('.protfolio_title').attr('value','');
+            $('.protfolio_tags').attr('value','');
+            $('.protfolio_type option[value="image"]').prop('selected', true);
+            $('#imageType').show();
+            $('#videoType').hide();
+            $('.protfolio_video_type option[value="youtube"]').prop('selected', true);
+            $('#videoLink').show();
+            $('#videoFile').hide();
+            $('.protfolio_status option[value="1"]').prop('selected', true);
+
+        });
+        $(document).on("click",".editPortfolio",function() {
+            // alert("Alert");
+            var portfolio_id = $(this).attr('portfolio-id');
+            $.ajax({
+                type: 'POST',
+                url: '{{route("admin.get-portfolio-details")}}',
+                data: {
+                    portfolio_id: portfolio_id,
+                },
+                success:function(response) {
+                    if(response.status) {
+                        // $('#state').html(response.html);
+                        $('.portfolio_id').attr('value',response.data.id);
+                        $('.portfolio_user_id').attr('value',response.data.user_id);
+                        $('.protfolio_title').attr('value',response.data.title);
+                        $('.protfolio_tags').attr('value',response.data.tags);
+                        $('.protfolio_type option[value="' + response.data.type + '"]').prop('selected', true);
+                        if(response.data.type == 'video') {
+                            $('#imageType').hide();
+                            $('#videoType').show();
+                        } else {
+                            $('#imageType').show();
+                            $('#videoType').hide();
+                        }
+                        $('.protfolio_video_type option[value="' + response.data.video_type + '"]').prop('selected', true);
+                        if(response.data.video_type == 'manual') {
+                            $('#videoLink').hide();
+                            $('#videoFile').show();
+                        } else {
+                            $('#videoLink').show();
+                            $('#videoFile').hide();
+                        }
+                        $('.protfolio_status option[value="' + response.data.status + '"]').prop('selected', true);
+                    }
+                    
+                }
+            });
+        });
+
 
         $('#order_table').DataTable();
     });
