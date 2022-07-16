@@ -2,6 +2,7 @@
 @section('content')
 @php
 use \App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 @endphp
 <script src="https://cdn.ckeditor.com/4.19.0/standard/ckeditor.js"></script>
 
@@ -65,7 +66,7 @@ use \App\Http\Controllers\Controller;
                             <input type="hidden" name="profile_details" value="profile_details">
                             <div class="card-body">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                <img src="{{ (isset($user) && $user->profile_photo)?url('userPhotos/'.$user->id.'/'.$user->profile_photo):url('userPhotos/demo.jpeg') }}" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                <img src="{{ (isset($user) && $user->profile_photo)?Storage::url($user->profile_photo):url('userPhotos/demo.jpeg') }}" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
                                 <div class="button-wrapper">
                                     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                     <span class="d-none d-sm-block">Upload new photo</span>

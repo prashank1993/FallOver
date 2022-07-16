@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Countries;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyUserRequest;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Packages;
 use App\Role;
 use App\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\UserMeta;
 use App\UserPortfolio;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -92,8 +90,9 @@ class UsersController extends Controller
             if ($request->file('profile_photo')) {
                 $file = $request->file('profile_photo');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('userPhotos/' . $user->id), $filename);
-                $user->profile_photo = $filename;
+                $path = $file->storeAs('userPhotos/' . $user->id, $filename);
+
+                $user->profile_photo = $path;
                 $user->save();
             }
 
@@ -192,9 +191,9 @@ class UsersController extends Controller
             if ($request->file('portfolioImage')) {
                 $file = $request->file('portfolioImage');
                 $filename = date('YmdHi') . $file->getClientOriginalName();
-                $file->move(public_path('portfolio/' . $request->user_id . '/images'), $filename);
+                $path = $file->storeAs('portfolio/' . $request->user_id . '/images', $filename);
             }
-            $data['url'] = 'portfolio/' . $request->user_id . '/images/' . $filename;
+            $data['url'] = $path;
         }
 
         if ($request->filetype == 'video') {
@@ -202,7 +201,8 @@ class UsersController extends Controller
                 if ($request->file('video_File')) {
                     $file = $request->file('video_File');
                     $filename = date('YmdHi') . $file->getClientOriginalName();
-                    $file->move(public_path('portfolio/' . $request->user_id . '/videos'), $filename);
+                    $path = $file->storeAs('portfolio/' . $request->user_id . '/videos', $filename);
+                    $data['url'] = $path;
                 }
             } else {
                 $data['url'] = $request->video_link;
@@ -233,8 +233,8 @@ class UsersController extends Controller
         if ($request->file('package_image')) {
             $file = $request->file('package_image');
             $filename = date('YmdHi') . $file->getClientOriginalName();
-            $file->move(public_path('packages/' . $request->user_id), $filename);
-            $data['image'] = 'packages/' . $request->user_id . '/' . $filename;
+            $path = $file->storeAs('packages/' . $request->user_id, $filename);
+            $data['image'] = $path; //'packages/' . $request->user_id . '/' . $filename;
         }
 
 
