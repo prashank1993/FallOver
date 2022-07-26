@@ -2,53 +2,25 @@
 
 <ul class="menu-inner py-1 ps">
     <!-- Dashboard -->
-    <li class="menu-item active">
-        <a href="/" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Analytics">Dashboard</div>
-        </a>
-    </li>
+  <li class="menu-item active">
+      <a href="/" class="menu-link">
+          <i class="menu-icon tf-icons bx bx-home-circle"></i>
+          <div data-i18n="Analytics">Dashboard</div>
+      </a>
+  </li>
 
-    <li class="menu-header small text-uppercase">
-        <span class="menu-header-text">Influencer</span>
-    </li>
-    {{-- <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="Account Settings">Dashboard</div>
-        </a>
-    </li> --}}
+  <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Influencer</span>
+  </li>
+
 	@can('user_management_access')
-    <li class="menu-item {{ request()->is('admin/permissions*') ? 'active open' : '' }} {{ request()->is('admin/roles*') ? 'active open' : '' }} {{ request()->is('admin/users*') ? 'active open' : '' }}">
-        <a href="javascript:void(0);" class="menu-link menu-toggle ">
-            <i class='menu-icon bx bx-user'></i>
-            <div data-i18n="user-management">{{ trans('cruds.userManagement.title') }}</div>
-        </a>
-        <ul class="menu-sub">
-        @can('permission_access')
-            <li class="menu-item {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
-                <a href="{{ route("admin.permissions.index") }}" class="menu-link ">
-                    <div data-i18n="Vertical Form">{{ trans('cruds.permission.title') }}</div>
-                </a>
-            </li>
-        @endcan
-        @can('role_access')
-            <li class="menu-item {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
-                <a href="{{ route("admin.roles.index") }}" class="menu-link ">
-                    <div data-i18n="Vertical Form">{{ trans('cruds.role.title') }}</div>
-                </a>
-            </li>
-        @endcan
-        @can('user_access')
-            <li class="menu-item {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
-                <a href="{{ route("admin.users.index") }}" class="menu-link">
-                    <div data-i18n="Vertical Form">{{ trans('cruds.user.title') }}</div>
-                </a>
-            </li>
-        @endcan
-        </ul>
-    </li>
-    @endcan
+  <li class="menu-item {{ request()->is('admin/all-influencer*') ? 'active' : '' }}">
+    <a href="{{ route("admin.users.all-influencer") }}" class="menu-link">
+      <i class='menu-icon bx bx-user'></i>
+        <div data-i18n="user-management">Users</div>
+    </a>
+  </li>
+  @endcan
     <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-message-rounded-edit"></i>
@@ -105,7 +77,18 @@
             <div data-i18n="Misc">Analytics</div>
         </a>
     </li>
-    
+    <li class="menu-item">
+      <a href="{{ route("admin.category.index") }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bxs-report"></i>
+        <div data-i18n="Misc">Category</div>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="{{ route("admin.services.index") }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bxs-report"></i>
+        <div data-i18n="Misc">Services</div>
+      </a>
+    </li>
     <!-- Components -->
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Brands</span></li>
     <!-- Cards -->
@@ -115,12 +98,12 @@
             <div data-i18n="Account Settings">Dashboard</div>
         </a>
     </li>
-    <li class="menu-item">
-        <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-user"></i>
-            <div data-i18n="Misc">Users</div>
-        </a>
-    </li>
+      <li class="menu-item {{ request()->is('admin/all-brand*') ? 'active' : '' }}">
+    <a href="{{ route("admin.users.all-brand") }}" class="menu-link">
+      <i class='menu-icon bx bx-user'></i>
+        <div data-i18n="user-management">Users</div>
+    </a>
+  </li>
     <li class="menu-item {{ request()->is('admin/brand-orders*') ? 'active open' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
@@ -187,6 +170,38 @@
             <div data-i18n="Support">Support</div>
         </a>
     </li>
+
+    @can('user_management_access')
+    <li class="menu-item {{ request()->is('admin/permissions*') ? 'active open' : '' }} {{ request()->is('admin/roles*') ? 'active open' : '' }} {{ request()->is('admin/users*') ? 'active open' : '' }}">
+        <a href="javascript:void(0);" class="menu-link menu-toggle ">
+            <i class='menu-icon bx bx-user'></i>
+            <div data-i18n="user-management">{{ trans('cruds.userManagement.title') }}</div>
+        </a>
+        <ul class="menu-sub">
+        @can('permission_access')
+            <li class="menu-item {{ request()->is('admin/permissions') || request()->is('admin/permissions/*') ? 'active' : '' }}">
+                <a href="{{ route("admin.permissions.index") }}" class="menu-link ">
+                    <div data-i18n="Vertical Form">{{ trans('cruds.permission.title') }}</div>
+                </a>
+            </li>
+        @endcan
+        @can('role_access')
+            <li class="menu-item {{ request()->is('admin/roles') || request()->is('admin/roles/*') ? 'active' : '' }}">
+                <a href="{{ route("admin.roles.index") }}" class="menu-link ">
+                    <div data-i18n="Vertical Form">{{ trans('cruds.role.title') }}</div>
+                </a>
+            </li>
+        @endcan
+        @can('user_access')
+            <li class="menu-item {{ request()->is('admin/users') || request()->is('admin/users/*') ? 'active' : '' }}">
+                <a href="{{ route("admin.users.index") }}" class="menu-link">
+                    <div data-i18n="Vertical Form">{{ trans('cruds.user.title') }}</div>
+                </a>
+            </li>
+        @endcan
+        </ul>
+    </li>
+  @endcan
 
     <li class="menu-item">
         <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="menu-link">

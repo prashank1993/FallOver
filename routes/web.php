@@ -29,6 +29,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('add-portfolio', 'UsersController@addPortfolio')->name('add-portfolio');
     Route::post('add-package', 'UsersController@addPackage')->name('add-package');
 
+    Route::get('all-influencer', 'UsersController@allInfluencer')->name('users.all-influencer');
+    Route::get('all-brand', 'UsersController@allBrand')->name('users.all-brand');
+    Route::get('user-add', 'UsersController@brandusercreate')->name('brand.user-add');
+    Route::post('brandusersave', 'UsersController@brandusersave')->name('brandusersave');
+    Route::get('user-edit/{$id}', 'UsersController@brandedit')->name('user-edit');
+    Route::get('brand-user-edit/{$id}', 'UsersController@showBrandUser')->name('brand-user-edit');
+    Route::resource('category', 'CategoryController');
+    Route::resource('services', 'ServiceController');
+
+
     // Site Settings
     Route::get('/settings', 'HomeController@SiteSettings')->name('settings');
     Route::post('/settings', 'HomeController@UpdateSetting')->name('update-settings');
@@ -39,6 +49,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
     Route::post('/get-portfolio-details', 'UsersController@getPortfolioDetails')->name('get-portfolio-details');
+    Route::post('/delete-portfolio', 'UsersController@deletePortfolio')->name('delete-portfolio');
 });
 
 Route::post('get-states', [UsersController::class, 'getStates'])->name('get-states');
+Route::get('/clear-cache', function () {
+    // 
+    Artisan::call('cache:clear');
+    Artisan::call('optimize');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+});

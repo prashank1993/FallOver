@@ -202,7 +202,7 @@ use \App\Http\Controllers\Controller;
                                 <tbody>
                                     @if(isset($user->portfolio) && count($user->portfolio) > 0)
                                     @foreach ($user->portfolio as $portfolio)
-                                    <tr>
+                                    <tr class="tr_{{$portfolio->id}}">
                                         <td>{{ucFirst($portfolio->id)}}</td>
                                         <td>{{ucFirst($portfolio->title)}}</td>
                                         <td>{{ucFirst($portfolio->tags)}}</td>
@@ -238,7 +238,7 @@ use \App\Http\Controllers\Controller;
                                 <div class="modal-content">
                                     <form action="{{ route("admin.add-portfolio") }}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" class="portfolio_user_id" name="user_id" value="{{ isset($user->id)?$user->id:'' }}">
+                                        <input type="hidden" class="portfolio_user_id" name="user_id" value="{{ isset($user->id)? $user->id:'' }}">
                                         <input type="hidden" class="portfolio_id" name="portfolio_id" value="">
                                         <div class="modal-header">
                                         <h5 class="modal-title" id="modalCenterTitle">Add Portfolio</h5>
@@ -875,7 +875,7 @@ use \App\Http\Controllers\Controller;
         
         $(document).on("click",".add_new_portfolio",function() {
             $('.portfolio_id').attr('value','');
-            $('.portfolio_user_id').attr('value','');
+            // $('.portfolio_user_id').attr('value','');
             $('.protfolio_title').attr('value','');
             $('.protfolio_tags').attr('value','');
             $('.protfolio_type option[value="image"]').prop('selected', true);
@@ -886,6 +886,23 @@ use \App\Http\Controllers\Controller;
             $('#videoFile').hide();
             $('.protfolio_status option[value="1"]').prop('selected', true);
 
+        });
+        
+        $(document).on("click",".deletePortfolio",function() {
+            var portfolio_id = $(this).attr('portfolio-id');
+            $.ajax({
+                type: 'POST',
+                url: '{{route("admin.delete-portfolio")}}',
+                data: {
+                    portfolio_id: portfolio_id,
+                },
+                success:function(response) {
+                    if(response.status){
+                        $('.tr_'+portfolio_id).remove();
+                    }
+                        
+                }
+            });
         });
         $(document).on("click",".editPortfolio",function() {
             // alert("Alert");

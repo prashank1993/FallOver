@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyUserRequest;
 use App\Packages;
 use App\Role;
 use App\User;
+use Hash;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +33,7 @@ class UsersController extends Controller
         $data['roles'] = Role::all()->pluck('title', 'id');
         $data['countries'] = $this->getCountry();
         $data['states'] = $this->getState();
-        return view('user-profile.index', $data);
+        return view('admin.users.create', $data);
     }
 
     public function store(Request $request)
@@ -215,6 +216,14 @@ class UsersController extends Controller
     }
 
 
+    // All Influencer
+    public function allInfluencer()
+    {
+        # code...
+        $users = Role::where('title', 'Influencer')->first()->users()->get();
+        return view('admin.users.index', compact('users'));
+    }
+
     // Packages
     public function addPackage(Request $request)
     {
@@ -248,5 +257,63 @@ class UsersController extends Controller
         # code...
         $data = UserPortfolio::where('id', $request->portfolio_id)->first();
         return response()->json(['status' => ($data) ? true : false, 'data' => $data]);
+    }
+
+    public function deletePortfolio(Request $request)
+    {
+        # code...
+        UserPortfolio::where('id', $request->portfolio_id)->delete();
+        return response()->json(['status' => true]);
+    }
+    // All Influencer
+    public function allBrand()
+    {
+        # code...
+
+        $users = Role::where('title', 'Brand')->first()->users()->get();
+        return view('admin.users.brand.index', compact('users'));
+    }
+    public function brandusercreate()
+    {
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $data['roles'] = Role::all()->pluck('title', 'id');
+        return view('admin.users.brand.create', $data);
+    }
+    public function brandusersave(Request $request)
+    {
+
+        $user = [
+            'full_name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->number,
+            'password' => Hash::make($request->password),
+        ];
+        $user = User::Create($user);
+        $user->roles()->sync($request->input('roles', []));
+        return back();
+    }
+    public function brandedit(User $user)
+    {
+        dd('adf');
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $roles = Role::all()->pluck('title', 'id');
+        $user->load('roles');
+        return view('admin.users.brand.create', compact('roles', 'user'));
+    }
+
+    public function showBrandUser(User $user)
+    {
+        abort_if(Gate::denies('user_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $user->load('roles');
+        $user->load('portfolio');
+        $user->load('packages');
+        // $user_meta = (object)$this->getUserMeta($user->id);
+        // $user->meta = $user_meta;
+        $data['user'] = $user;
+        // $data['countries'] = $this->getCountry();
+        // $data['states'] = $this->getState($user_meta->country);
+        $data['roles'] = Role::all()->pluck('title', 'id');
+
+        return view('user-profile.index', $data);
     }
 }
